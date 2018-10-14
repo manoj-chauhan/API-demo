@@ -16,13 +16,26 @@ import org.json.JSONObject;
 
 public class Main {
 
-    private static String individualEmail = "manoj@kiwitech.com";
+    private static String individualEmail = "manj.muthukumaresan@gmail.com";
 
     public final static void main(String[] args) throws Exception {
 
         JSONObject individual = Individual.getIndividualInfo(individualEmail);
-        JSONObject employer = Employment.getEmployerInfo((String) individual.get("id"));
-        JSONArray plans = BenefitPlans.getClientBenefitPlans((String) employer.get("parentId"));
+        String individualId = (String) individual.get("id");
+
+        JSONObject employer = Employment.getEmployerInfo(individualId);
+        String clientId = (String) employer.get("parentId");
+
+
+        JSONArray enrolledPlans = IndividualBenefitPlans.getIndividualEnrolledBenefitPlans(individualId, clientId);
+
+//        JSONArray plans = BenefitPlans.getClientBenefitPlans(clientId);
+
+//        for (int i = 0 ; i < plans.length(); i++) {
+//            JSONObject jsonObject = (JSONObject) plans.get(i);
+//            String planId = (String) jsonObject.get("id");
+//            Funding.getFundingSources(clientId, planId);
+//        }
 
     }
 

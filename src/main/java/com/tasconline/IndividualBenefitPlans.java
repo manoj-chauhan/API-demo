@@ -4,6 +4,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -14,37 +15,25 @@ import org.json.JSONArray;
 import java.io.IOException;
 
 
-public class BenefitPlans {
+public class IndividualBenefitPlans {
 
-    private static final String urlTemplate = Constants.ENV_BASE_URL_ACCOUNT_CONFIG + "/profile/%s/configuration/benefitPlan/search?take=100&skip=0&orderBy=name&orderDirection=ASC";
-    private static final String payloadTemplate = "[\n" +
-            "\t{\"key\":\"parentId\",\"value\":\"%s\",\"matchType\":\"EXACT\",\"chainType\":\"AND\"},\n" +
-            "\t{\"key\":\"parentType\",\"value\":\"CLIENT\",\"matchType\":\"EXACT\",\"chainType\":\"AND\"},\n" +
-            "\t{\"key\":\"currentState\", \"value\": \"Setup|Active|AuditAdjustment|Initiating|Initiated|TakeoverHold|GracePeriod|RunOut|Reconciliation\", \"matchType\": \"IN\" }\n" +
-            "]";
+    private static final String urlTemplate = Constants.ENV_BASE_URL_ACCOUNT + "/profile/%s/client/%s/benefitAccounts/balances?orderBy=planName&orderDirection=ASC";
 
-    public static final JSONArray getClientBenefitPlans(String clientId) throws IOException {
+    public static final JSONArray getIndividualEnrolledBenefitPlans(String individualId, String clientId) throws IOException {
         System.out.println("-------------------------------------------------------------------");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
-        String urlString = String.format(urlTemplate, clientId);
+        String urlString = String.format(urlTemplate, individualId, clientId);
         System.out.println("Url : " + urlString);
-
-        String payload = String.format(payloadTemplate, clientId);
-        System.out.println("Payload : " + payload);
 
         JSONArray responseJson = null;
 
         try {
-            HttpPost httpPost = new HttpPost(urlString);
+            HttpGet httpPost = new HttpGet(urlString);
 
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
-
-
-            StringEntity entity = new StringEntity(payload);
-            httpPost.setEntity(entity);
 
             System.out.println("Fetching Employer Detail: " + httpPost.getRequestLine());
 
