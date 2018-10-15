@@ -22,7 +22,7 @@ public class Individual {
 
 
     public static final JSONObject getIndividualInfo(String email) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("-------------------------------Fetching Indivisual Info------------------------------------");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String payload = "[{\"key\":\"primaryEmail\",\"matchType\":\"EXACT\",\"value\":\"" + email + "\"}]";

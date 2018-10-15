@@ -24,7 +24,7 @@ public class BenefitPlans {
             "]";
 
     public static final JSONArray getClientBenefitPlans(String clientId) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("----------------------------------Fetching client benefit plans by client id---------------------------------");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, clientId);
@@ -46,7 +46,7 @@ public class BenefitPlans {
             StringEntity entity = new StringEntity(payload);
             httpPost.setEntity(entity);
 
-            System.out.println("Fetching Employer Detail: " + httpPost.getRequestLine());
+            System.out.println("Fetching Client Benefit Plans: " + httpPost.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {

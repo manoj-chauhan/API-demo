@@ -2,6 +2,10 @@ package com.tasconline;
 
 import java.io.IOException;
 
+import com.tasconline.filters.BenefitEffectiveDateFilter;
+import com.tasconline.filters.EligibilityClassFilter;
+import com.tasconline.filters.EnrolledPlanFilter;
+import com.tasconline.filters.FilterByEnrollmentMethod;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -16,7 +20,7 @@ import org.json.JSONObject;
 
 public class Main {
 
-    private static String individualEmail = "manj.muthukumaresan@gmail.com";
+    private static String individualEmail = "ajay.kumar@kiwitech.com"; //"manj.muthukumaresan@gmail.com";
 
     public final static void main(String[] args) throws Exception {
 
@@ -25,18 +29,41 @@ public class Main {
 
         JSONObject employer = Employment.getEmployerInfo(individualId);
         String clientId = (String) employer.get("parentId");
+        String hireDate = (String) employer.get("hireDate");
+        int eligibilityClassId = employer.optInt("eligibilityClassId", -1);
 
+        JSONObject clientDetail = Client.getClientDetail(clientId);
+        String effectiveDateType = ((JSONObject)clientDetail.optJSONArray("eligibilityClasses").get(0)).optString("eligibilityEffectiveDate");
+        System.out.println("------effectiveDateType----" + effectiveDateType);
+
+        int waitingPeriod = ((JSONObject)clientDetail.optJSONArray("eligibilityClasses").get(0)).optInt("waitingPeriod");
+        System.out.println("------waitingPeriod----" + waitingPeriod);
 
         JSONArray enrolledPlans = IndividualBenefitPlans.getIndividualEnrolledBenefitPlans(individualId, clientId);
 
-//        JSONArray plans = BenefitPlans.getClientBenefitPlans(clientId);
+        JSONArray plans = BenefitPlans.getClientBenefitPlans(clientId);
+//
+        JSONArray filteredPlans = new BenefitEffectiveDateFilter().filterBenefitEffectiveDate(plans, hireDate, waitingPeriod, effectiveDateType);
+        System.out.println("-------filterdPlans " + filteredPlans.length());
 
-//        for (int i = 0 ; i < plans.length(); i++) {
-//            JSONObject jsonObject = (JSONObject) plans.get(i);
-//            String planId = (String) jsonObject.get("id");
-//            Funding.getFundingSources(clientId, planId);
-//        }
+        JSONArray filteredPlansByMethods = new FilterByEnrollmentMethod().filterByEnrollmentMethod(plans);
+        System.out.println("-------filteredPlansByMethods " + filteredPlansByMethods.length());
+
+        JSONArray notEnrolledPlans = new EnrolledPlanFilter().filterOutAlreadyEnrolledPlans(enrolledPlans, plans);
+        System.out.println("-------notEnrolledPlans " + notEnrolledPlans.length());
+
+
+        for (int i = 0 ; i < notEnrolledPlans.length(); i++) {
+            JSONObject jsonObject = (JSONObject) notEnrolledPlans.get(i);
+            String planId = (String) jsonObject.get("id");
+//            JSONArray fundingSources = Funding.getFundingSources(clientId, planId);
+//            System.out.println("-------fundingSources " + fundingSources);
+        }
+
+        JSONArray elibileFilteredPlans = new EligibilityClassFilter().filterByEligibilityClassId(notEnrolledPlans, eligibilityClassId);
+        System.out.println("-------elibileFilteredPlans " + elibileFilteredPlans.length());
 
     }
+
 
 }

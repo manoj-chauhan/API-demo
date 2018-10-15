@@ -20,7 +20,7 @@ public class IndividualBenefitPlans {
     private static final String urlTemplate = Constants.ENV_BASE_URL_ACCOUNT + "/profile/%s/client/%s/benefitAccounts/balances?orderBy=planName&orderDirection=ASC";
 
     public static final JSONArray getIndividualEnrolledBenefitPlans(String individualId, String clientId) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("----------------------------------Fetching Enrolled Benefit Plans---------------------------------");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, individualId, clientId);

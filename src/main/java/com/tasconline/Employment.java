@@ -22,7 +22,7 @@ public class Employment {
 
 
     public static final JSONObject getEmployerInfo(String individualId) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("--------------------------------Fetching Employer Info-----------------------------------");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, individualId);

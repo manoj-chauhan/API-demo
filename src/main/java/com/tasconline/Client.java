@@ -4,6 +4,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -17,32 +18,25 @@ import java.io.IOException;
 
 public class Client {
 
-    private static String url = Constants.ENV_BASE_URL_PROFILE + "/profile/profileType/individual/search";
+    private static String urlTemplate = Constants.ENV_BASE_URL_PROFILE + "/profile/%s/profileType/client";
 
 
 
-    public static final JSONObject get(String email) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+    public static final JSONObject getClientDetail(String clientId) throws IOException {
+        System.out.println("-----------------------------------------Client detail on the basis of clientId----------------------------------------------------");
         CloseableHttpClient httpclient = HttpClients.createDefault();
-
-        String payload = "[{\"key\":\"primaryEmail\",\"matchType\":\"EXACT\",\"value\":\"" + email + "\"}]";
 
         JSONObject responseJson = null;
 
+        String url = String.format(urlTemplate, clientId);
+
         try {
-            HttpPost httpPost = new HttpPost(url);
+            HttpGet httpPost = new HttpGet(url);
 
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
 
-            System.out.println("Payload : " + payload);
-            StringEntity entity = new StringEntity(payload);
-            httpPost.setEntity(entity);
-
-            System.out.println("Fetching Individual Detail: " + httpPost.getRequestLine());
-
-            // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
                 @Override
@@ -60,11 +54,11 @@ public class Client {
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
             System.out.println(responseBody);
-            responseJson = (JSONObject) new JSONArray(responseBody).get(0);
+            responseJson = new JSONObject(responseBody);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
         return responseJson;
     }
 
