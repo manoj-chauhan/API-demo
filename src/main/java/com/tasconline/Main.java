@@ -40,12 +40,13 @@ public class Main {
         payrollScheduleId = (String) ((JSONObject) payrollScheduleBP.get(0)).get("id");
 
         /*BP PAYROLL NUMBER*/
-        JSONArray payrollNumber = BPPayrollNumber.getBPPayrollNumber(individualId, planId, payrollScheduleId, "0", clientId);
+//        JSONArray payrollNumber = BPPayrollNumber.getBPPayrollNumber(individualId, planId, payrollScheduleId, "0", clientId);
 
-        String commandName = "StartToEnrolled";
-        String benefitAccountId = Utility.getUUId();
-        String payloadEnrollBP = EnrollBP.getEnrollBPPayload( (JSONObject)plans.get(3),individualEmail, commandName, benefitAccountId, individualId,clientId, hireDate, payrollScheduleId);
-        JSONArray successEnrollingBP = EnrollBP.enrollIndividualBP(payloadEnrollBP, individualId, benefitAccountId, commandName);
+//        String commandName = "StartToEnrolled";
+        String activeToActiveCommandName = "ActiveToActive";
+        String benefitAccountId = "26a59487-2111-4fe4-82b9-fcf14ffa22b8";//Utility.getUUId();
+        String payloadEnrollBP = EnrollBP.getEnrollBPPayload( (JSONObject)plans.get(1),individualEmail, activeToActiveCommandName, benefitAccountId, individualId,clientId, hireDate, payrollScheduleId);
+        JSONArray successEnrollingBP = EnrollBP.enrollIndividualBP(payloadEnrollBP, individualId, benefitAccountId, activeToActiveCommandName);
 
     }
 

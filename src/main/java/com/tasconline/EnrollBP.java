@@ -86,6 +86,7 @@ public class EnrollBP {
         enrollModel.setCreatedBy(email);
         enrollModel.setType(commandName);
         EnrollDataModel dataModel = enrollModel.getData();
+        dataModel.setElectionAmount(2500);
         dataModel.setPayrollScheduleId(payrollScheduleId);
         dataModel.setId(benefitAccountId);
         dataModel.setParentId(individualId);
@@ -98,7 +99,8 @@ public class EnrollBP {
         dataModel.setHireDate(hireDate);
         dataModel.setElectionScheduleType(electionScheduleType);
         dataModel.setCreatedBy(email);
-        dataModel.setLastTransition(commandName);
+//        dataModel.setLastTransition(commandName);
+        dataModel.setLastTransition("EnrolledToEnrolled");
 
         Gson gson = new Gson();
         Object request = gson.toJson(enrollModel);
