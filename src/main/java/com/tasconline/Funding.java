@@ -24,14 +24,14 @@ public class Funding {
 
 
     public static final JSONArray getFundingSources(String clientId, String planId) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("########################## Funding Source of planId" + planId + "##############################");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, clientId, planId);
-        System.out.println("Url : " + urlString);
+        System.out.println("Url :: " + urlString);
 
         String payload = String.format(payloadTemplate, planId);
-        System.out.println("Payload : " + payload);
+        System.out.println("Payload :: " + payload);
 
         JSONArray responseJson = null;
 
@@ -45,8 +45,6 @@ public class Funding {
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
-
-            System.out.println("Fetching Funding Source Detail: " + httpPost.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
@@ -65,12 +63,12 @@ public class Funding {
 
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
-            System.out.println(responseBody);
             responseJson = new JSONArray(responseBody);
+            System.out.println("Funding source ::");
+            Utility.logJson(responseJson);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
         return responseJson;
     }
 

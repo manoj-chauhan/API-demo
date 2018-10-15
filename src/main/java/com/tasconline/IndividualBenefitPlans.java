@@ -20,11 +20,11 @@ public class IndividualBenefitPlans {
     private static final String urlTemplate = Constants.ENV_BASE_URL_ACCOUNT + "/profile/%s/client/%s/benefitAccounts/balances?orderBy=planName&orderDirection=ASC";
 
     public static final JSONArray getIndividualEnrolledBenefitPlans(String individualId, String clientId) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("########################## Individual's Enrolled Plans ##############################");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, individualId, clientId);
-        System.out.println("Url : " + urlString);
+        System.out.println("Url :: " + urlString);
 
         JSONArray responseJson = null;
 
@@ -34,8 +34,6 @@ public class IndividualBenefitPlans {
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
-
-            System.out.println("Fetching Employer Detail: " + httpPost.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
@@ -54,12 +52,12 @@ public class IndividualBenefitPlans {
 
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
-            System.out.println(responseBody);
             responseJson = new JSONArray(responseBody);
+            System.out.println("Plans ::");
+            Utility.logJson(responseJson);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
         return responseJson;
     }
 

@@ -22,13 +22,13 @@ public class EnrollBP {
 
 
     public static final JSONArray enrollIndividualBP(String payloadTemplate, String profileId, String benefitAccountId, String commandName) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("########################## Enrolling Individual in Benefit Plan ##############################");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, profileId, benefitAccountId, commandName);
-        System.out.println("Url : " + urlString);
+        System.out.println("Url :: " + urlString);
 
-        System.out.println("Payload : " + payloadTemplate);
+        System.out.println("Payload :: " + payloadTemplate);
 
         JSONArray responseJson = null;
 
@@ -63,12 +63,11 @@ public class EnrollBP {
 
             };
             String responseBody = httpclient.execute(httpPut, responseHandler);
-            System.out.println(responseBody);
+            System.out.println("Enrollment Done!!");
 //            responseJson = new JSONArray(responseBody);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
         return responseJson;
     }
 

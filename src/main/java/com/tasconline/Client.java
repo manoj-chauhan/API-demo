@@ -22,7 +22,7 @@ public class Client {
 
 
     public static final JSONObject get(String email) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("########################## Client Info ##############################");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String payload = "[{\"key\":\"primaryEmail\",\"matchType\":\"EXACT\",\"value\":\"" + email + "\"}]";
@@ -31,12 +31,13 @@ public class Client {
 
         try {
             HttpPost httpPost = new HttpPost(url);
+            System.out.println("Url :: " + url);
 
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
 
-            System.out.println("Payload : " + payload);
+            System.out.println("Payload :: " + payload);
             StringEntity entity = new StringEntity(payload);
             httpPost.setEntity(entity);
 
@@ -59,12 +60,13 @@ public class Client {
 
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
-            System.out.println(responseBody);
             responseJson = (JSONObject) new JSONArray(responseBody).get(0);
+            System.out.println("Client ::");
+            Utility.logJson(responseJson);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
+
         return responseJson;
     }
 

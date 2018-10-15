@@ -60,6 +60,7 @@ public class Individual {
             String responseBody = httpclient.execute(httpPost, responseHandler);
 
             responseJson = (JSONObject) new JSONArray(responseBody).get(0);
+            System.out.println("Individual ::");
             Utility.logJson(responseJson);
         } finally {
             httpclient.close();

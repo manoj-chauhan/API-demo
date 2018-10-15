@@ -22,17 +22,17 @@ public class Employment {
 
 
     public static final JSONObject getEmployerInfo(String individualId) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("########################## Individual Employment Info ##############################");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String urlString = String.format(urlTemplate, individualId);
-        System.out.println("Url : " + urlString);
+        System.out.println("Url :: " + urlString);
 
         String payload = "[\n" +
                 "\t{\"key\":\"individualId\",\"value\":\"" + individualId + "\",\"matchType\":\"EXACT\"},\n" +
                 "\t{\"key\":\"currentState\",\"value\":\"Active\",\"matchType\":\"EXACT\"}\n" +
                 "]";
-        System.out.println("Payload : " + payload);
+        System.out.println("Payload :: " + payload);
 
         JSONObject responseJson = null;
 
@@ -46,8 +46,6 @@ public class Employment {
 
             StringEntity entity = new StringEntity(payload);
             httpPost.setEntity(entity);
-
-            System.out.println("Fetching Employer Detail: " + httpPost.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
@@ -66,12 +64,13 @@ public class Employment {
 
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
-            System.out.println(responseBody);
             responseJson = (JSONObject) new JSONArray(responseBody).get(0);
+            System.out.println("Employment ::");
+            Utility.logJson(responseJson);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
+
         return responseJson;
     }
 
