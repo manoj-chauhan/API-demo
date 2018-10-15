@@ -22,7 +22,7 @@ public class Individual {
 
 
     public static final JSONObject getIndividualInfo(String email) throws IOException {
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("########################## Individual Info ##############################");
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         String payload = "[{\"key\":\"primaryEmail\",\"matchType\":\"EXACT\",\"value\":\"" + email + "\"}]";
@@ -31,16 +31,15 @@ public class Individual {
 
         try {
             HttpPost httpPost = new HttpPost(url);
+            System.out.println("Url :: " + url);
 
             httpPost.setHeader("Content-Type", "application/json");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
 
-            System.out.println("Payload : " + payload);
+            System.out.println("Payload :: " + payload);
             StringEntity entity = new StringEntity(payload);
             httpPost.setEntity(entity);
-
-            System.out.println("Fetching Individual Detail: " + httpPost.getRequestLine());
 
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
@@ -59,12 +58,12 @@ public class Individual {
 
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
-            System.out.println(responseBody);
+
             responseJson = (JSONObject) new JSONArray(responseBody).get(0);
+            Utility.logJson(responseJson);
         } finally {
             httpclient.close();
         }
-        System.out.println("-------------------------------------------------------------------");
         return responseJson;
     }
 
