@@ -14,7 +14,7 @@ public class EnrollDataModel {
     private String hireDate;
     private String benefitEffectiveDate ="2018-10-01";
     private String eligibilityEndDate = "2018-12-31";
-    private String payrollFirstDate = "2018-10-01";
+    private String payrollFirstDate ="2018-10-01";
     private String electionScheduleType;
     private int electionAmount =1000;
     private float perPayPeriodAmount = 83.33f;

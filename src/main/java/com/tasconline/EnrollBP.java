@@ -1,5 +1,6 @@
 package com.tasconline;
 
+import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -11,6 +12,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -69,4 +71,41 @@ public class EnrollBP {
         System.out.println("-------------------------------------------------------------------");
         return responseJson;
     }
+
+    public static String getEnrollBPPayload(JSONObject jsonObject, String email, String commandName, String benefitAccountId, String individualId, String clientId, String hireDate, String payrollScheduleId){
+        String planId = (String) jsonObject.get("id");
+        String planName = (String) jsonObject.get("name");
+        String planDescription = (String) jsonObject.get("description");
+        String planStartDate = (String) jsonObject.get("planStartDate");
+        String planEndDate = (String) jsonObject.get("planEndDate");
+        String electionScheduleType = (String) jsonObject.get("electionScheduleType");
+        EnrollBaseModel enrollModel = new EnrollBaseModel();
+        enrollModel.setId(Utility.getUUId());
+        enrollModel.setEventCorrelationId(Utility.getUUId());
+        enrollModel.setProducerId("fd05b24c-0dd7-4af4-976e-844112dac9c3");
+        enrollModel.setCreatedById(Utility.getUUId());
+        enrollModel.setCreatedBy(email);
+        enrollModel.setType(commandName);
+        EnrollDataModel dataModel = enrollModel.getData();
+        dataModel.setPayrollScheduleId(payrollScheduleId);
+        dataModel.setId(benefitAccountId);
+        dataModel.setParentId(individualId);
+        dataModel.setClientId(clientId);
+        dataModel.setPlanId(planId);
+        dataModel.setPlanName(planName);
+        dataModel.setPlanDescription(planDescription);
+        dataModel.setPlanStartDate(planStartDate);
+        dataModel.setPlanEndDate(planEndDate);
+        dataModel.setHireDate(hireDate);
+        dataModel.setElectionScheduleType(electionScheduleType);
+        dataModel.setCreatedBy(email);
+        dataModel.setLastTransition(commandName);
+
+        Gson gson = new Gson();
+        Object request = gson.toJson(enrollModel);
+
+        return request.toString();
+    }
+
+
 }

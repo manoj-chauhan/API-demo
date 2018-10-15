@@ -43,51 +43,10 @@ public class Main {
         }
 
         String commandName = "StartToEnrolled";
-        String benefitAccountId = getUUId();
-        String payloadEnrollBP = getEnrollBPPayload( (JSONObject)plans.get(1),commandName, benefitAccountId, individualId,clientId, hireDate, payrollScheduleId);
-
+        String benefitAccountId = Utility.getUUId();
+        String payloadEnrollBP = EnrollBP.getEnrollBPPayload( (JSONObject)plans.get(2),individualEmail, commandName, benefitAccountId, individualId,clientId, hireDate, payrollScheduleId);
         JSONArray successEnrollingBP = EnrollBP.enrollIndividualBP(payloadEnrollBP, individualId, benefitAccountId, commandName);
 
-    }
-
-    public static String getEnrollBPPayload(JSONObject jsonObject, String commandName, String benefitAccountId, String individualId, String clientId, String hireDate, String payrollScheduleId){
-        String planId = (String) jsonObject.get("id");
-        String planName = (String) jsonObject.get("name");
-        String planDescription = (String) jsonObject.get("description");
-        String planStartDate = (String) jsonObject.get("planStartDate");
-        String planEndDate = (String) jsonObject.get("planEndDate");
-        String electionScheduleType = (String) jsonObject.get("electionScheduleType");
-
-        EnrollBaseModel enrollModel = new EnrollBaseModel();
-        enrollModel.setId(getUUId());
-        enrollModel.setEventCorrelationId(getUUId());
-        enrollModel.setProducerId("fd05b24c-0dd7-4af4-976e-844112dac9c3");
-        enrollModel.setCreatedById(getUUId());
-        enrollModel.setCreatedBy(individualEmail);
-        enrollModel.setType(commandName);
-        EnrollDataModel dataModel = enrollModel.getData();
-        dataModel.setPayrollScheduleId(payrollScheduleId);
-        dataModel.setId(benefitAccountId);
-        dataModel.setParentId(individualId);
-        dataModel.setClientId(clientId);
-        dataModel.setPlanId(planId);
-        dataModel.setPlanName(planName);
-        dataModel.setPlanDescription(planDescription);
-        dataModel.setPlanStartDate(planStartDate);
-        dataModel.setPlanEndDate(planEndDate);
-        dataModel.setHireDate(hireDate);
-        dataModel.setElectionScheduleType(electionScheduleType);
-        dataModel.setCreatedBy(individualEmail);
-        dataModel.setLastTransition(commandName);
-
-        Gson gson = new Gson();
-        Object request = gson.toJson(enrollModel);
-
-        return request.toString();
-    }
-
-    public static String getUUId(){
-        return UUID.randomUUID().toString();
     }
 
 }
