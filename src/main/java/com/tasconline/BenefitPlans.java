@@ -64,8 +64,10 @@ public class BenefitPlans {
             };
             String responseBody = httpclient.execute(httpPost, responseHandler);
             responseJson = new JSONArray(responseBody);
+
             System.out.println("Plans ::");
             Utility.logJson(responseJson);
+
         } finally {
             httpclient.close();
         }

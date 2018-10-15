@@ -35,6 +35,8 @@ public class IndividualBenefitPlans {
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Authorization", Constants.ACCESS_TOKEN);
 
+            System.out.println("Fetching Individual enrolled benefit plans: " + httpPost.getRequestLine());
+
             // Create a custom response handler
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
