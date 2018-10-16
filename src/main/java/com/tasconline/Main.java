@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 public class Main {
 
-    private static String individualEmail = "ajay.kumar@kiwitech.com"; //"manj.muthukumaresan@gmail.com";
+    private static String individualEmail = "manojtest@mailinator.com"; //"manj.muthukumaresan@gmail.com";
 
     public final static void main(String[] args) throws Exception {
 
@@ -40,17 +40,18 @@ public class Main {
         System.out.println("------waitingPeriod----" + waitingPeriod);
 
         JSONArray enrolledPlans = IndividualBenefitPlans.getIndividualEnrolledBenefitPlans(individualId, clientId);
+        System.out.println("-------enrolledPlans " + enrolledPlans.length());
 
         JSONArray plans = BenefitPlans.getClientBenefitPlans(clientId);
 //
-        JSONArray filteredPlans = new BenefitEffectiveDateFilter().filterBenefitEffectiveDate(plans, hireDate, waitingPeriod, effectiveDateType);
+        JSONArray filteredPlans = new BenefitEffectiveDateFilter().filterByBenefitEffectiveDate(plans, hireDate, waitingPeriod, effectiveDateType);
         System.out.println("-------filterdPlans " + filteredPlans.length());
 
         JSONArray filteredPlansByMethods = new FilterByEnrollmentMethod().filterByEnrollmentMethod(plans);
-        System.out.println("-------filteredPlansByMethods " + filteredPlansByMethods.length());
+        System.out.println("-------filteredPlansByMethods " + filteredPlansByMethods.length()); //already done
 
         JSONArray notEnrolledPlans = new EnrolledPlanFilter().filterOutAlreadyEnrolledPlans(enrolledPlans, plans);
-        System.out.println("-------notEnrolledPlans " + notEnrolledPlans.length());
+        System.out.println("-------notEnrolledPlans " + notEnrolledPlans.length()); //already done
 
 
         for (int i = 0 ; i < notEnrolledPlans.length(); i++) {

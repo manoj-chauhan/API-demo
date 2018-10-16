@@ -15,7 +15,7 @@ public class FilterByEnrollmentMethod {
         JSONArray arr = new JSONArray();
         int l = plans.length();
 
-        for(int i = 0; i < l; i++) {
+        for(int i = 0; i < l-1; i++) {
             JSONObject plan = (JSONObject) plans.get(i);
             JSONArray methods = plan.optJSONArray("enrollmentMethods");
 //            System.out.println( "------- enrollmentMethods " + methods.toString());

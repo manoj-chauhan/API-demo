@@ -15,13 +15,16 @@ public class EligibilityClassFilter {
         for(int i = 0; i<l; i++) {
             JSONObject json = jsonArray.getJSONObject(i);
             JSONArray arr = json.optJSONArray("eligibilityClasses");
-            for(int j = 0; j< arr.length(); j++) {
-                int elibilityId = (int) arr.get(j);
-                if(elibilityId == eligibilityClassId) {
-                    filteredArray.put(json);
-                    break;
+            if(arr != null && arr.length() > 0) {
+                for(int j = 0; j< arr.length(); j++) {
+                    int elibilityId = (int) arr.get(j);
+                    if(elibilityId == eligibilityClassId) {
+                        filteredArray.put(json);
+                        break;
+                    }
                 }
             }
+
         }
 
         return filteredArray;

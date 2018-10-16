@@ -17,7 +17,7 @@ public class BenefitEffectiveDateFilter {
 
     String dateFormat = "yyyy-MM-dd";//2018-12-25
 
-    public JSONArray filterBenefitEffectiveDate(JSONArray plans, String hireDateStr, int waitingPeriod, String effDateType) throws ParseException{
+    public JSONArray filterByBenefitEffectiveDate(JSONArray plans, String hireDateStr, int waitingPeriod, String effDateType) throws ParseException{
         EligibilityEffectiveDateType effectiveDateType = getEffectiveDateType(effDateType);
         Date hireDate = DateUtil.convertStringToDate(hireDateStr, dateFormat);
 
