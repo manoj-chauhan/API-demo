@@ -45,12 +45,12 @@ public class Main {
         JSONArray plans = BenefitPlans.getClientBenefitPlans(clientId);
 //
         JSONArray filteredPlans = new BenefitEffectiveDateFilter().filterByBenefitEffectiveDate(plans, hireDate, waitingPeriod, effectiveDateType);
-        System.out.println("-------filterdPlans " + filteredPlans.length());
+        System.out.println("-------elibileFilteredPlans on effective date " + filteredPlans.length());
 
-        JSONArray filteredPlansByMethods = new FilterByEnrollmentMethod().filterByEnrollmentMethod(plans);
+        JSONArray filteredPlansByMethods = new FilterByEnrollmentMethod().filterByEnrollmentMethod(filteredPlans);
         System.out.println("-------filteredPlansByMethods " + filteredPlansByMethods.length()); //already done
 
-        JSONArray notEnrolledPlans = new EnrolledPlanFilter().filterOutAlreadyEnrolledPlans(enrolledPlans, plans);
+        JSONArray notEnrolledPlans = new EnrolledPlanFilter().filterOutAlreadyEnrolledPlans(filteredPlansByMethods, plans);
         System.out.println("-------notEnrolledPlans " + notEnrolledPlans.length()); //already done
 
 
